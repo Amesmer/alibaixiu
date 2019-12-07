@@ -1,5 +1,5 @@
 
-
+//用户退出
 $('#logout').on('click',function(){
     var isconfirm= confirm("you really wanna to leave?")
     if(isconfirm){

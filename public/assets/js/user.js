@@ -1,4 +1,4 @@
-//添加永华
+//添加用户
 $('#userform').on('submit', function () {
     var formdata = $(this).serialize();
     $.ajax({
@@ -20,7 +20,6 @@ $('#userform').on('submit', function () {
 // $('#avatar').on('change', function () {
  
 // })
-
 $('#modifybox').on('change','#avatar',function(){
     var formdata = new FormData();
     //属性名称   
@@ -90,3 +89,72 @@ $('#modifybox').on('submit', '#modifyform', function () {
     return false;
 })
 
+//用户删除
+$('#userBox').on('click','.delete',function(){
+    if(confirm('您真的要删除用户吗')){
+       var id=$(this).attr('data-id');
+        $.ajax({
+            type:'delete',
+            url:'/users/'+id,
+            success:function(){
+                location.reload();
+            }
+        })
+    }
+})
+
+
+
+
+//获取全选按钮
+  var  selectall=$('#selectall');
+  var deletemany= $('#deletemany');
+  //全选按钮状态发生改变
+  selectall.on('change',function(){
+     var status= $(this).prop('checked');
+     //获取到所有用户
+     $('#userBox').find('input').prop('checked',status);
+     if(status){
+       deletemany.show();
+     }else{
+         deletemany.hide();
+     }
+  })
+//下级全选
+$('#userBox').on('change','.userStatus',function(){
+    //获取所有用户数量 和选中用户 比较数量
+   var inputs= $('#userBox').find('input');
+   if(inputs.length==inputs.filter(':checked').length){
+      selectall.prop('checked',true)
+   }else{
+    selectall.prop('checked',false)
+   }
+   //批量删除显示与隐藏
+   if(inputs.filter(':checked').length>0){
+    deletemany.show();
+   }else{
+    deletemany.hide();
+   }
+})
+//为批量删除按钮添加点击事件
+deletemany.on('click',function(){
+    var ids=[];
+    //获取选中的用户                              
+   var checkedUser= $('#userBox').find('input').filter(':checked');
+   //循环复选框从复选框身上获取data-id
+   checkedUser.each(function(index,element){
+     ids.push( $(element).attr('data-id')) 
+   })
+
+   if(confirm('真的要进行批量删除操作吗')){
+    $.ajax({
+        type:'delete',
+        url:'/users/'+ids.join("-"),
+        success:function(response){
+             location.reload();
+        }
+    })
+   }
+   
+
+})
