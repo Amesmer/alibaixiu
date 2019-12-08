@@ -30,12 +30,12 @@ $('#feature').on('change',function(){
             //response 返回图片地址
             // console.log(response);
          $('#thumbnail').val(response[0].cover)
-         
         }
     })
-
 })
 
+
+//提交文章
 $('#addForm').on('submit',function(){
     var formdata=$(this).serialize();
     $.ajax({
