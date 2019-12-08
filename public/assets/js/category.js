@@ -16,7 +16,7 @@ $.ajax({
     type:'get',
     url:'/categories',
     success:function(response){
-        console.log(response);
+        // console.log(response);
       var html=  template('categoryListTpl',{data:response})
       $('#categoryBox').html(html);
     }
@@ -55,4 +55,22 @@ $('#formbox').on('submit','#modifyCategory',function(){
     })
 
     return false;
+})
+
+//删除分类功能
+
+//编辑按钮
+$('#categoryBox').on('click' ,'.delete',function(){
+    if(confirm('您真的要执行操作吗')){
+   //获取要修改的分类数据的id
+    var id=$(this).attr('data-id');
+    //根据id获取分类信息
+    $.ajax({
+        type:'delete',
+        url:'/categories/'+id,
+        success:function(){
+            location.reload();
+        }
+    })
+    }
 })
