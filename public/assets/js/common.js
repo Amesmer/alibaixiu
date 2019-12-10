@@ -15,3 +15,9 @@ $('#logout').on('click',function(){
       })
     }
    })
+
+   //时间格式拼接
+function formateDate(date) {
+  date = new Date(date);
+  return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+}

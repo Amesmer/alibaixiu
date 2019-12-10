@@ -15,11 +15,6 @@ $.ajax({
     }
 })
 
-//时间格式拼接
-function formateDate(date) {
-    date = new Date(date);
-    return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-}
 
 //跳转页面
 function changepage(page) {
@@ -77,8 +72,23 @@ $('#filterform').on('submit', function () {
             $('#postslist').html(html);
             var page = template('pagetpl', response);
             $('#page').html(page)
-
         }
     })
     return false;
+})
+
+
+//删除文章
+$('#postslist').on('click','.delete',function(){
+    if(confirm('你真的要进行删除操作吗')){
+        var id=$(this).attr('data-id')
+        $.ajax({
+            type:'delete',
+            url:'/posts/'+id,
+            success:function(){
+                location.reload();
+            }
+        })
+    }
+   
 })
