@@ -21,3 +21,14 @@ function formateDate(date) {
   date = new Date(date);
   return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 }
+
+//向服务端发送请求 获取用用户信息
+$.ajax({
+  type:'get',
+  url:'/users/'+userId,
+  success:function(response){
+    $('.avatar').attr('src',response.avatar)
+    $('.profile .name').html(response.nickName);
+
+  }
+})

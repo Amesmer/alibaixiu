@@ -1,3 +1,11 @@
+<!-- 检查用户登录状态  返回 var isLogin = true;   此处不能使用异步的ajax -->
+<script src="/login/status"></script>   
+<script>
+if(!isLogin){
+      location.href='login.html';
+}
+</script>
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -116,13 +124,17 @@
     {{each records}}
     <tr >
       <td>{{$value.author.nickName}}</td>
-      <td>{{$value.content}}</td>
+      <td>{{$value.content}}</td> 
       <td>{{$value.post.title}}</td>
       <td>{{$imports.formateDate($value.createAt)}}</td>
       <td>{{$value.state==0?'未审核':"已批准"}}</td>
       <td class="text-center">
-        <a href="post-add.html" class="btn btn-info btn-xs">批准</a>
-        <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+        <a href="javascript:;" class="btn btn-info btn-xs status"
+         data-status="{{$value.state}}" data-id="{{$value._id}}">
+          {{$value.state==0?'批准':'驳回'}}
+        </a>
+        <a href="javascript:;" class="btn btn-danger btn-xs delete" 
+        data-id="{{$value._id}}">删除</a>
       </td>
     </tr>
     {{/each}}
@@ -135,7 +147,7 @@
     {{/if}}
     {{each display}}
     <li><a href="javascript:;" onclick="cahngepage({{$value}})">{{$value}}</a></li>
-    {{each}}
+    {{/each}}
     {{if page<pages}}
     <li><a href="javascript:;" onclick="cahngepage({{page+1}})">下一页</a></li>
     {{/if}}
